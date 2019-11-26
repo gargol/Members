@@ -121,6 +121,7 @@ module.exports = function MembersApi({
 
     const middleware = {
         sendMagicLink: Router(),
+        cancelSubscription: Router(),
         createCheckoutSession: Router(),
         handleStripeWebhook: Router()
     };
@@ -148,6 +149,26 @@ module.exports = function MembersApi({
             res.writeHead(500);
             return res.end('Internal Server Error.');
         }
+    });
+
+    middleware.cancelSubscription.use(async function (req, res) {
+        if (!req.member) {
+            res.writeHead(400);
+            return res.end('Bad Request.');
+        }
+
+        if (!req.member.stripe.subscriptions) {
+            res.writeHead(400);
+            return res.end('Bad Request.');
+        }
+
+        // TODO: add actual implementation
+
+        res.writeHead(204, {
+            'Content-Type': 'application/json'
+        });
+
+        res.end();
     });
 
     middleware.createCheckoutSession.use(ensureStripe, body.json(), async function (req, res) {
