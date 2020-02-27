@@ -4,6 +4,14 @@ const api = require('./api');
 
 const STRIPE_API_VERSION = '2019-09-09';
 
+const CURRENCY_SYMBOLS = {
+    usd: '$',
+    aud: '$',
+    cad: '$',
+    gbp: '£',
+    eur: '€'
+};
+
 module.exports = class StripePaymentProcessor {
     constructor(config, storage, logging) {
         this.logging = logging;
@@ -207,7 +215,8 @@ module.exports = class StripePaymentProcessor {
                     nickname: subscription.plan_nickname,
                     interval: subscription.plan_interval,
                     amount: subscription.plan_amount,
-                    currency: subscription.plan_currency
+                    currency: subscription.plan_currency,
+                    currency_symbol: CURRENCY_SYMBOLS[subscription.plan_currency]
                 },
                 status: subscription.status,
                 start_date: subscription.start_date,
