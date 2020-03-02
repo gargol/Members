@@ -215,7 +215,7 @@ module.exports = class StripePaymentProcessor {
                     nickname: subscription.plan_nickname,
                     interval: subscription.plan_interval,
                     amount: subscription.plan_amount,
-                    currency: subscription.plan_currency,
+                    currency: String.prototype.toUpperCase.call(subscription.plan_currency),
                     currency_symbol: CURRENCY_SYMBOLS[subscription.plan_currency]
                 },
                 status: subscription.status,
